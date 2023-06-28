@@ -76,18 +76,19 @@ if option=="OverAll-Analysis":
     fig = px.line(participating_nation_df,x="Editions",y="No Of region")
     st.header("Participating Nations Over Years")
     st.plotly_chart(fig)
+    col1,col2 = st.columns(2,gap="small")
+    with col1:      
+       events_df = helper.participating_nation(df,'Event')
+       fig = px.line(events_df,x="Editions",y="No Of Event")
+       st.header("No Of Events Over Years")
+       st.plotly_chart(fig)
+    with col2:
+       athletes_df = helper.participating_nation(df,'Name')
+       fig = px.line(athletes_df,x="Editions",y="No Of Name")
+       st.header("Athletes Over Years")
+       st.plotly_chart(fig)
 
-    events_df = helper.participating_nation(df,'Event')
-    fig = px.line(events_df,x="Editions",y="No Of Event")
-    st.header("No Of Events Over Years")
-    st.plotly_chart(fig)
-
-    athletes_df = helper.participating_nation(df,'Name')
-    fig = px.line(athletes_df,x="Editions",y="No Of Name")
-    st.header("Athletes Over Years")
-    st.plotly_chart(fig)
-
-    st.header('No Of Years Over Time (Every Sports)')
+    st.header('No of events over time (Every Sports)')
     fig,ax = plt.subplots(figsize=(20,20))
     x = df.drop_duplicates(['Year','Sport','Event'])
     ax = sns.heatmap(x.pivot_table(index="Sport",columns="Year",values="Event",aggfunc='count').fillna(0).astype('int'),annot=True)
